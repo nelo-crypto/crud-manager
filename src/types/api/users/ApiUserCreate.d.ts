@@ -1,0 +1,3 @@
+type ApiUserCreate = {
+    data: User,
+}

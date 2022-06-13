@@ -1,0 +1,20 @@
+{
+  "apiVersion": "v1",
+  "models": [
+    {
+      "entity": "User",
+      "paginationColumns": [
+        "Name",
+        "Email",
+        "Image"
+      ]
+    },
+    {
+      "entity": "Option",
+      "paginationColumns": [
+        "Name",
+        "Value"
+      ]
+    }
+  ]
+}

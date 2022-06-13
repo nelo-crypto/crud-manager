@@ -1,0 +1,3 @@
+type ApiUserDelete = {
+    data: User,
+}

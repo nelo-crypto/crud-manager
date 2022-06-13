@@ -1,0 +1,3 @@
+type ApiEntityUpdateResponse = {
+    data: any,
+}

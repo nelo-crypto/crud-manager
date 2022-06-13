@@ -1,0 +1,3 @@
+type ApiUserUpdate = {
+    data: User,
+}
