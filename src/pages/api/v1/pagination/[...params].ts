@@ -27,7 +27,7 @@ export default async function handler(
     Promise.all([
         // @ts-ignore
         prisma[entity].findMany({
-            skip: (parseInt(page) - 1) * PAGINATION.DEFAULT_NUMBER_OF_ITEMS_PER_PAGE,
+            skip: (page - 1) * PAGINATION.DEFAULT_NUMBER_OF_ITEMS_PER_PAGE,
             take: PAGINATION.DEFAULT_NUMBER_OF_ITEMS_PER_PAGE,
             orderBy: {
                 name: 'asc',
