@@ -71,6 +71,8 @@ export default function Read() {
                             onClick={(e) => {
                                 e.preventDefault()
 
+                                if (user === null) return
+
                                 router.push(sprintf(ROUTE.USERS.UPDATE, user.id))
                             }}>
                         <BiEdit/> Edit

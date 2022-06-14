@@ -94,6 +94,8 @@ export default function Read() {
                             onClick={(e) => {
                                 e.preventDefault()
 
+                                if (option === null) return
+
                                 router.push(sprintf(ROUTE.OPTIONS.UPDATE, option.id))
                             }}>
                         <BiEdit/> Edit
