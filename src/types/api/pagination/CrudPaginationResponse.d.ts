@@ -1,5 +1,5 @@
 type CrudPaginationResponse = {
-    data: User[],
+    data: any[],
     pagination: {
         total: number,
     }
