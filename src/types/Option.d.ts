@@ -1,4 +1,4 @@
-type Option = {User
+type Option = {
     id: number,
     createdAt: string,
     name: string,
