@@ -13,7 +13,7 @@ export default function List() {
     const [options, setOptions] = useState<Option[]>([])
     const [total, setTotal] = useState<number>(0)
     const [isLoading, setLoading] = useState<boolean>(false)
-    const [alerts, setAlerts] = useState<Alert[]>([])
+    const [alerts, setAlerts] = useState<CrudAlert[]>([])
     const page: number = parseInt(router.query.page)
 
     const deleteOption = (user: User) => {
