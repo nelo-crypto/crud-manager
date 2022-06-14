@@ -16,7 +16,6 @@ export default function User({
                                  disabled,
                                  csrfToken,
                              }: UserProps) {
-    const router = useRouter()
     const [error, setError] = useState(null)
 
     return (
