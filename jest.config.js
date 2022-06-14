@@ -7,8 +7,10 @@ module.exports = {
         '^.+\\.(ts|tsx)?$': 'ts-jest',
         '^.+\\.(js|jsx)$': 'babel-jest',
     },
-    transformIgnorePatterns: [
-        "<rootDir>/node_modules/array-move/*.js"
-    ],
-    testEnvironment: "jsdom"
+    testEnvironment: "jsdom",
+    "globals": {
+        "ts-jest": {
+            "tsconfig": "./tsconfig.test.json"
+        }
+    },
 }
