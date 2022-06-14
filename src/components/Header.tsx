@@ -5,6 +5,7 @@ import ROUTE from '../enums/Route'
 import {sprintf} from 'sprintf-js'
 import {useRouter} from 'next/router'
 import PriceFeed from './PriceFeed'
+import Image from 'next/image'
 
 type HeaderProps = {
     pageTitle?: string,
@@ -81,9 +82,15 @@ export default function Header({pageTitle}: HeaderProps) {
                                     <NavDropdown.Item onClick={(e) => {
                                         e.preventDefault()
                                         router.push('/profile')
-                                    }}><img width={30}
-                                            src={session?.user?.image}
-                                            alt=""/>Profile</NavDropdown.Item>
+                                    }}>
+                                        {session?.user?.image && (
+                                            <Image
+                                                src={session.user.image}
+                                                width={30}
+                                                height={30}
+                                            />
+                                        )}
+                                    </NavDropdown.Item>
                                     <NavDropdown.Item onClick={(e) => {
                                         e.preventDefault()
                                         signOut()
