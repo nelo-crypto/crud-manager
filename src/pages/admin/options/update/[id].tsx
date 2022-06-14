@@ -10,7 +10,7 @@ import ROUTE from '../../../../enums/Route'
 
 export default function Update() {
     const router = useRouter()
-    const [option, setOption] = useState<Option | undefined>(undefined)
+    const [option, setOption] = useState<Option | null>(null)
     const [isLoading, setLoading] = useState<boolean>(false)
     const [alerts, setAlerts] = useState<CrudAlert[]>([])
     const [id, setId] = useState<number>(0)
@@ -27,6 +27,8 @@ export default function Update() {
     const handleNameChange = (event) => {
         event.preventDefault()
 
+        if (option === null) return
+
         const newOption: Option = {...option}
 
         newOption.name = event.target.value
@@ -36,6 +38,8 @@ export default function Update() {
 
     const handleValueChange = (event) => {
         event.preventDefault()
+
+        if (option === null) return
 
         const newOption: Option = {...option}
 

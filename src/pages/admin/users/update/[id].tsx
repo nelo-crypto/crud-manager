@@ -61,6 +61,8 @@ export default function Update() {
     const handleNameChange = (event) => {
         event.preventDefault()
 
+        if (user === null) return
+
         const newUser: User = {...user}
 
         newUser.name = event.target.value
@@ -70,6 +72,8 @@ export default function Update() {
 
     const handleEmailChange = (event) => {
         event.preventDefault()
+
+        if (user === null) return
 
         const newUser: User = {...user}
 
@@ -81,6 +85,8 @@ export default function Update() {
     const handleImageChange = (event) => {
         event.preventDefault()
 
+        if (user === null) return
+
         const newUser: User = {...user}
 
         newUser.image = event.target.value
@@ -90,6 +96,8 @@ export default function Update() {
 
     const handleRoleChange = (event) => {
         event.preventDefault()
+
+        if (user === null) return
 
         const newUser: User = {...user}
 
