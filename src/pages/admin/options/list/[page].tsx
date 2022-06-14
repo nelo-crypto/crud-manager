@@ -132,7 +132,7 @@ export default function List() {
                                                onClick={(e) => {
                                                    e.preventDefault()
 
-                                                   deleteOption(option)
+                                                   handleDeleteEntity(option)
                                                }}
                                             ><BiTrash/></a>
                                         </td>
