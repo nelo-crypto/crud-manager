@@ -109,7 +109,7 @@ export default function Update() {
                     <h1>Option</h1>
                 </Col>
             </Row>
-            {option !== undefined ? <OptionForm option={option}
+            {option !== null ? <OptionForm option={option}
                                                 nameChangeCallback={handleNameChange}
                                                 valueChangeCallback={handleValueChange}
                                                 disabled={false}/> : null}
