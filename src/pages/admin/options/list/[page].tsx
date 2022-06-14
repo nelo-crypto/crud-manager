@@ -86,7 +86,7 @@ export default function List() {
                 </Col>
                 <Col sm="2"
                      className="text-end">
-                    <Button href={ROUTE.USERS.CREATE}>
+                    <Button href={ROUTE.OPTIONS.CREATE}>
                         <BiPlus/> Create
                     </Button>
                 </Col>
