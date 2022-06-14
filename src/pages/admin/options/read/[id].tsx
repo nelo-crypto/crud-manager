@@ -35,18 +35,6 @@ export default function Read() {
                 setOption(response.data)
                 setLoading(false)
             })
-            .catch((response: ApiCrudErrorResponse) => {
-                const newAlerts: CrudAlert[] = [...alerts]
-
-                newAlerts.push({
-                    variant: 'danger',
-                    message: response.error_code + ': ' + response.message,
-                    visible: true,
-                })
-
-                setAlerts(newAlerts)
-                setLoading(false)
-            })
     }, [id])
 
     return (
