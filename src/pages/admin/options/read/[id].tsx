@@ -51,7 +51,8 @@ export default function Read() {
 
     return (
         <Layout isLoading={isLoading}
-                alerts={alerts}>
+                alerts={alerts}
+                pageTitle={option?.name}>
             <Row>
                 <Col sm="12">
                     <h1>Option</h1>

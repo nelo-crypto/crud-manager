@@ -52,7 +52,8 @@ export default function Read() {
 
     return (
         <Layout isLoading={isLoading}
-                alerts={alerts}>
+                alerts={alerts}
+                pageTitle={user?.name}>
             <Row>
                 <Col sm="12">
                     <h1>User</h1>
