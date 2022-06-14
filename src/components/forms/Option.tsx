@@ -2,8 +2,8 @@ import {Col, Row} from 'react-bootstrap'
 
 interface OptionProps {
     option: Option,
-    nameChangeCallback: (event) => void,
-    valueChangeCallback: (event) => void,
+    nameChangeCallback?: (event) => void,
+    valueChangeCallback?: (event) => void,
     disabled: boolean,
 }
 

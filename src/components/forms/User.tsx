@@ -2,10 +2,10 @@ import {Col, Row} from 'react-bootstrap'
 
 interface UserProps {
     user: User,
-    userNameChangeCallback: (event) => void,
-    userEmailChangeCallback: (event) => void,
-    userImageChangeCallback: (event) => void,
-    userRoleChangeCallback: (event) => void,
+    userNameChangeCallback?: (event) => void,
+    userEmailChangeCallback?: (event) => void,
+    userImageChangeCallback?: (event) => void,
+    userRoleChangeCallback?: (event) => void,
     disabled: boolean,
 }
 
