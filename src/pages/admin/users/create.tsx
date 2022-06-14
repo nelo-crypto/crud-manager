@@ -87,6 +87,7 @@ export default function Create() {
                 userEmailChangeCallback={handleEmailChange}
                 userImageChangeCallback={handleImageChange}
                 userRoleChangeCallback={handleRoleChange}
+                disabled={false}
             />
             <Row className="mb-2">
                 <Col sm="6"
