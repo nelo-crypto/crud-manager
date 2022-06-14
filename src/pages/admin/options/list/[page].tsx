@@ -16,11 +16,11 @@ export default function List() {
     const [alerts, setAlerts] = useState<CrudAlert[]>([])
     const [page, setPage] = useState<number>(0)
 
-    const handleDeleteEntity = (user: User) => {
+    const handleDeleteEntity = (option: Option) => {
         if (options === []) return
 
         setLoading(true)
-        fetch(sprintf(ROUTE.API.OPTIONS, user.id), {method: 'DELETE'})
+        fetch(sprintf(ROUTE.API.OPTIONS, option.id), {method: 'DELETE'})
             .then((res) => res.json())
             .then((response) => {
                 setOptions(response.data)
