@@ -14,7 +14,7 @@ export default function List() {
     const [total, setTotal] = useState<number>(0)
     const [isLoading, setLoading] = useState<boolean>(false)
     const [alerts, setAlerts] = useState<CrudAlert[]>([])
-    const page: number = parseInt(router.query.page)
+    const [page, setPage] = useState<number>(0)
 
     const deleteOption = (user: User) => {
         fetch('/api/v1/user/' + user.id, {method: 'DELETE'})
@@ -27,6 +27,15 @@ export default function List() {
 
     useEffect(() => {
         if (!router.isReady) return
+        if (router.query.page === undefined) return
+
+        const pageParam: string = (typeof router.query.page == 'string') ? router.query.page : router.query.page[0]
+
+        setPage(parseInt(pageParam))
+    }, [router])
+
+    useEffect(() => {
+        if (page === 0) return
 
         setLoading(true)
         fetch(sprintf(ROUTE.API.PAGINATION, 'option', page))
@@ -48,7 +57,7 @@ export default function List() {
                 setAlerts(newAlerts)
                 setLoading(false)
             })
-    }, [router])
+    }, [page])
 
     const paginationAndCreateButton = () => {
         return (
