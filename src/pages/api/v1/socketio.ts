@@ -2,7 +2,6 @@ import {NextApiRequest, NextApiResponse} from 'next'
 import {Server} from 'socket.io'
 import {Kraken} from 'node-kraken-api'
 import prisma from '../../../lib/prisma'
-import ERROR from '../../../enums/Error'
 
 export default async function handler(
     req: NextApiRequest,
@@ -22,15 +21,18 @@ export default async function handler(
     }
 
     const kraken = new Kraken()
+    // @ts-ignore
     const io = new Server(res.socket.server)
 
     let priceSpread: number = 0
 
+    // @ts-ignore
     if (res.socket.server.io) {
         console.debug('Socket is already running')
     } else {
         console.debug('Socket is initializing')
 
+        // @ts-ignore
         res.socket.server.io = io
 
         io.on('connect', socket => {
@@ -53,7 +55,7 @@ export default async function handler(
 
             priceSpread = (1 + option.value / 100) * price
         })
-        .subscribe('XBT/USD') // subscribe to multiple pairs at once
+        .subscribe('XBT/USD')
 
     res.end()
 }
