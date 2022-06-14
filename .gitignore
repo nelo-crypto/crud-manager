@@ -36,4 +36,5 @@ yarn-error.log*
 *.tsbuildinfo
 
 .idea/
+db/
 coverage/
