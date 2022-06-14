@@ -38,12 +38,14 @@ export default function SignIn({csrfToken}) {
                         tenantKey: values.tenantKey,
                         callbackUrl: `${window.location.origin}`,
                     })
-
+                    // @ts-ignore
                     if (res?.error) {
+                        // @ts-ignore
                         setError(res.error)
                     } else {
                         setError(null)
                     }
+                    // @ts-ignore
                     if (res.url) router.push(res.url)
                     setSubmitting(false)
                 }}
