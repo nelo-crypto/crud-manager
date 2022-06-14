@@ -12,10 +12,10 @@ interface OptionProps {
 }
 
 export default function Option({
-                                 option,
-                                 disabled,
-                                 csrfToken,
-                             }: OptionProps) {
+                                   option,
+                                   disabled,
+                                   csrfToken,
+                               }: OptionProps) {
     const router = useRouter()
     const [error, setError] = useState(null)
 
@@ -36,7 +36,7 @@ export default function Option({
                             const replaceValue = option ? option.id : 'create'
                             const method = option ? 'PUT' : 'POST'
 
-                            const restResponse = await fetch(
+                            const rawResponse = await fetch(
                                 ROUTE.API.OPTIONS.replace('%d', replaceValue),
                                 {
                                     method: method,
@@ -47,19 +47,13 @@ export default function Option({
                                 }
                             )
 
-                            console.log('restResponse', restResponse)
+                            const response = await rawResponse.json()
 
-                            // @ts-ignore
-                            if (fetchResult?.error) {
-                                // @ts-ignore
-                                setError(fetchResult.error)
-                            } else {
-                                setError(null)
+                            if (method === 'POST') {
+                                router.push(ROUTE.OPTIONS.UPDATE.replace('%d', response.data.id))
                             }
 
                             setSubmitting(false)
-
-                            router.push( ROUTE.USERS.READ.replace('%d', replaceValue))
                         }}
                     >
                         {(formik) => (
