@@ -22,6 +22,8 @@ export default NextAuth({
         async signIn({user, account, profile, email, credentials}) {
             console.debug('SignIn', user, account, profile, email, credentials)
 
+            if (user.email === null) return false
+
             prisma.user
                 .findUnique({
                     where: {
