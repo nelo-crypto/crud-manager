@@ -3,63 +3,20 @@ import {Button, Col, Row} from 'react-bootstrap'
 import Layout from '../../../components/Layout'
 import CrudBackButton from '../../../components/CrudBackButton'
 import OptionForm from '../../../components/forms/Option'
-import {useState} from 'react'
-import ROUTE from '../../../enums/Route'
+import {getCsrfToken} from 'next-auth/react'
 
-export default function Create() {
-    const [option, setOption] = useState<Option>({
-        id: 0,
-        name: '',
-        value: 0,
-        createdAt: '',
-    })
-
-    const handleNameChange = (event) => {
-        event.preventDefault()
-
-        const newOption: Option = {...option}
-
-        newOption.name = event.target.value
-
-        setOption(newOption)
-    }
-
-    const handleValueChange = (event) => {
-        event.preventDefault()
-
-        const newOption: Option = {...option}
-
-        newOption.value = event.target.value
-
-        setOption(newOption)
-    }
-
-    const handleSaveClick = () => {
-        fetch(
-            ROUTE.API.OPTIONS,
-            {
-                method: 'POST',
-                body: JSON.stringify(option)
-            }
-        )
-            .then((res) => res.json())
-            .then((response) => {
-                console.log('response', response)
-            })
-    }
-
+export default function Create({csrfToken}) {
     return (
-        <Layout isLoading={false}>
+        <Layout isLoading={false}
+                pageTitle="Create user">
             <Row>
                 <Col sm="12">
                     <h1>Create option</h1>
                 </Col>
             </Row>
             <OptionForm
-                option={option}
-                nameChangeCallback={handleNameChange}
-                valueChangeCallback={handleValueChange}
                 disabled={false}
+                csrfToken={csrfToken}
             />
             <Row className="mb-2">
                 <Col sm="6"
@@ -68,12 +25,21 @@ export default function Create() {
                 </Col>
                 <Col sm="6"
                      className="text-end">
-                    <Button onClick={handleSaveClick}
-                            variant="primary">
+                    <Button form="currentform"
+                            variant="primary"
+                            type="submit">
                         <BiSave/> Save
                     </Button>
                 </Col>
             </Row>
         </Layout>
     )
+}
+
+export async function getServerSideProps(context) {
+    return {
+        props: {
+            csrfToken: await getCsrfToken(context),
+        },
+    }
 }
