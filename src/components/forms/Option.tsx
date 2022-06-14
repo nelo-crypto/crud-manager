@@ -95,10 +95,10 @@ export default function Option({
                                         <fieldset className="form-group">
                                             <legend className="mt-1">Value</legend>
                                             <Field disabled={disabled}
-                                                   name="email"
+                                                   name="value"
                                                    aria-label="Enter option value"
                                                    aria-required="true"
-                                                   type="text"
+                                                   type="number"
                                                    className="w-full bg-gray-300 text-gray-900 mt-2 p-1"
                                             />
                                         </fieldset>
