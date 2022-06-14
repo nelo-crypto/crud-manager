@@ -2,58 +2,36 @@ import {BiSave} from 'react-icons/bi'
 import {Button, Col, Row} from 'react-bootstrap'
 import Layout from '../../../components/Layout'
 import CrudBackButton from '../../../components/CrudBackButton'
-import UserForm from '../../../components/forms/User'
+import OptionForm from '../../../components/forms/Option'
 import {useState} from 'react'
 import ROUTE from '../../../enums/Route'
 
 export default function Create() {
-    const [user, setUser] = useState<User>({
+    const [option, setOption] = useState<Option>({
         id: 0,
-        email: '',
         name: '',
-        image: '',
-        role: '',
+        value: 0,
         createdAt: '',
     })
 
     const handleNameChange = (event) => {
         event.preventDefault()
 
-        const newUser: User = {...user}
+        const newOption: Option = {...option}
 
-        newUser.name = event.target.value
+        newOption.name = event.target.value
 
-        setUser(newUser)
+        setOption(newOption)
     }
 
-    const handleEmailChange = (event) => {
+    const handleValueChange = (event) => {
         event.preventDefault()
 
-        const newUser: User = {...user}
+        const newOption: Option = {...option}
 
-        newUser.email = event.target.value
+        newOption.value = event.target.value
 
-        setUser(newUser)
-    }
-
-    const handleImageChange = (event) => {
-        event.preventDefault()
-
-        const newUser: User = {...user}
-
-        newUser.image = event.target.value
-
-        setUser(newUser)
-    }
-
-    const handleRoleChange = (event) => {
-        event.preventDefault()
-
-        const newUser: User = {...user}
-
-        newUser.role = event.target.value
-
-        setUser(newUser)
+        setOption(newOption)
     }
 
     const handleSaveClick = () => {
@@ -61,12 +39,12 @@ export default function Create() {
             ROUTE.API.OPTIONS,
             {
                 method: 'POST',
-                body: JSON.stringify(user)
+                body: JSON.stringify(option)
             }
         )
             .then((res) => res.json())
             .then((response) => {
-                console.log('users', response)
+                console.log('response', response)
             })
     }
 
@@ -74,15 +52,14 @@ export default function Create() {
         <Layout isLoading={false}>
             <Row>
                 <Col sm="12">
-                    <h1>Create user</h1>
+                    <h1>Create option</h1>
                 </Col>
             </Row>
-            <UserForm
-                user={user}
-                userNameChangeCallback={handleNameChange}
-                userEmailChangeCallback={handleEmailChange}
-                userImageChangeCallback={handleImageChange}
-                userRoleChangeCallback={handleRoleChange}
+            <OptionForm
+                option={option}
+                nameChangeCallback={handleNameChange}
+                valueChangeCallback={handleValueChange}
+                disabled={false}
             />
             <Row className="mb-2">
                 <Col sm="6"
