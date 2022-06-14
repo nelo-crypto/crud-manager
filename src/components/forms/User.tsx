@@ -1,79 +1,153 @@
 import {Col, Row} from 'react-bootstrap'
+import * as Yup from 'yup'
+import {ErrorMessage, Field, Formik} from 'formik'
+import {useState} from 'react'
+import ROUTE from '../../enums/Route'
+import {useRouter} from 'next/router'
 
 interface UserProps {
-    user: User,
-    userNameChangeCallback?: (event) => void,
-    userEmailChangeCallback?: (event) => void,
-    userImageChangeCallback?: (event) => void,
-    userRoleChangeCallback?: (event) => void,
+    user?: User,
     disabled: boolean,
+    csrfToken?: string,
 }
 
 export default function User({
                                  user,
-                                 userNameChangeCallback,
-                                 userEmailChangeCallback,
-                                 userImageChangeCallback,
-                                 userRoleChangeCallback,
                                  disabled,
+                                 csrfToken,
                              }: UserProps) {
+    const router = useRouter()
+    const [error, setError] = useState(null)
+
     return (
         <>
-            <Row>
+            <Row className="mb-5">
                 <Col sm="12">
-                    <fieldset className="form-group">
-                        <legend className="mt-1">Name</legend>
-                        <input className="form-control"
-                               defaultValue={user.name}
-                               placeholder="Name"
-                               disabled={disabled}
-                               onChange={userNameChangeCallback}
-                               type="text"/>
-                    </fieldset>
-                </Col>
-            </Row>
-            <Row>
-                <Col sm="12">
-                    <fieldset className="form-group">
-                        <legend className="mt-1">Email</legend>
-                        <input className="form-control"
-                               defaultValue={user.email}
-                               placeholder="Email"
-                               onChange={userEmailChangeCallback}
-                               disabled={disabled}
-                               type="email"/>
-                    </fieldset>
-                </Col>
-            </Row>
-            <Row className="mb-3">
-                <Col sm="12">
-                    <fieldset className="form-group">
-                        <legend className="mt-1">Image</legend>
-                        <input className="form-control"
-                               defaultValue={user.image}
-                               placeholder="Image"
-                               onChange={userImageChangeCallback}
-                               disabled={disabled}
-                               type="text"/>
-                    </fieldset>
-                </Col>
-            </Row>
-            <Row className="mb-3">
-                <Col sm="12">
-                    <fieldset className="form-group">
-                        <legend className="mt-1">Role</legend>
-                        <select name="role"
-                                onChange={userRoleChangeCallback}
-                                disabled={disabled}
-                                defaultValue={user.role}>
-                            <option value="">..
-                            </option>
-                            <option value="USER">USER
-                            </option>
-                            <option value="ADMIN">ADMIN
-                            </option>
-                        </select>
-                    </fieldset>
+                    <Formik
+                        initialValues={{name: user?.name, email: user?.email, image: user?.image, role: user?.role}}
+                        validationSchema={Yup.object({
+                            name: Yup.string()
+                                .max(20, 'Must be 20 characters or less')
+                                .required('Enter user name'),
+                            email: Yup.string()
+                                .max(30, 'Must be 30 characters or less')
+                                .email('Invalid email address')
+                                .required('Enter user email'),
+                            image: Yup.string()
+                                .max(30, 'Image URL Must be 5 characters or less')
+                                .required('Enter user image'),
+                            role: Yup.string()
+                                .required('Enter user role'),
+                        })}
+                        onSubmit={async (values, {setSubmitting}) => {
+                            const replaceValue = user ? user.id : 'create'
+                            const method = user ? 'PUT' : 'POST'
+
+                            const fetchResult = await fetch(
+                                ROUTE.API.USERS.replace('%d', replaceValue),
+                                {
+                                    method: method,
+                                    body: JSON.stringify({
+                                        name: values.name,
+                                        email: values.email,
+                                        image: values.image,
+                                        role: values.role,
+                                    })
+                                }
+                            )
+
+                            // @ts-ignore
+                            if (fetchResult?.error) {
+                                // @ts-ignore
+                                setError(fetchResult.error)
+                            } else {
+                                setError(null)
+                            }
+
+                            setSubmitting(false)
+                        }}
+                    >
+                        {(formik) => (
+                            <form onSubmit={formik.handleSubmit}
+                                  id="currentform">
+                                <input
+                                    name="csrfToken"
+                                    type="hidden"
+                                    defaultValue={csrfToken}
+                                />
+                                <Row>
+                                    <Col sm="12">
+                                        {error}
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm="6">
+                                        <fieldset className="form-group">
+                                            <legend className="mt-1">Name</legend>
+                                            <Field disabled={disabled}
+                                                   name="name"
+                                                   aria-label="Enter user name"
+                                                   aria-required="true"
+                                                   type="text"
+                                                   className="w-full bg-gray-300 text-gray-900 mt-2 p-1"
+                                            />
+                                        </fieldset>
+                                        <div className="text-red-600 text-sm">
+                                            <ErrorMessage name="name"/>
+                                        </div>
+                                    </Col>
+                                    <Col sm="6">
+                                        <fieldset className="form-group">
+                                            <legend className="mt-1">Email</legend>
+                                            <Field disabled={disabled}
+                                                   name="email"
+                                                   aria-label="Enter user email"
+                                                   aria-required="true"
+                                                   type="text"
+                                                   className="w-full bg-gray-300 text-gray-900 mt-2 p-1"
+                                            />
+                                        </fieldset>
+                                        <div className="text-red-600 text-sm">
+                                            <ErrorMessage name="email"/>
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col sm="6">
+                                        <fieldset className="form-group">
+                                            <legend className="mt-1">Image</legend>
+                                            <Field disabled={disabled}
+                                                   name="image"
+                                                   aria-label="Enter user image url"
+                                                   aria-required="true"
+                                                   type="text"
+                                                   className="w-full bg-gray-300 text-gray-900 mt-2 p-1"
+                                            />
+                                        </fieldset>
+                                        <div className="text-red-600 text-sm">
+                                            <ErrorMessage name="image"/>
+                                        </div>
+                                    </Col>
+                                    <Col sm="6">
+                                        <fieldset className="form-group">
+                                            <legend className="mt-1">Role</legend>
+                                            <Field disabled={disabled}
+                                                   as="select"
+                                                   name="role"
+                                                   className="w-full bg-gray-300 text-gray-900 mt-2 p-1">
+                                                <option value="">...</option>
+                                                <option value="USER">USER</option>
+                                                <option value="ADMIN">ADMIN</option>
+                                            </Field>
+                                        </fieldset>
+                                        <div className="text-red-600 text-sm">
+                                            <ErrorMessage name="role"/>
+                                        </div>
+                                    </Col>
+                                </Row>
+                            </form>
+                        )}
+                    </Formik>
                 </Col>
             </Row>
         </>
