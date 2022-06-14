@@ -12,10 +12,20 @@ export default function Read() {
     const router = useRouter()
     const [user, setUser] = useState<User | null>(null)
     const [isLoading, setLoading] = useState<boolean>(false)
-    const id: number = parseInt(router.query.id)
+    const [alerts, setAlerts] = useState<CrudAlert[]>([])
+    const [id, setId] = useState<number>(0)
 
     useEffect(() => {
         if (!router.isReady) return
+        if (router.query.id === undefined) return
+
+        const idParam: string = (typeof router.query.id == 'string') ? router.query.id : router.query.id[0]
+
+        setId(parseInt(idParam))
+    }, [router])
+
+    useEffect(() => {
+        if (id === 0) return
 
         setLoading(true)
         fetch(sprintf(ROUTE.API.USERS, id))
@@ -26,10 +36,23 @@ export default function Read() {
                 setUser(response.data)
                 setLoading(false)
             })
-    }, [router])
+            .catch((response: ApiCrudErrorResponse) => {
+                const newAlerts: CrudAlert[] = [...alerts]
+
+                newAlerts.push({
+                    variant: 'danger',
+                    message: response.error_code + ': ' + response.message,
+                    visible: true,
+                })
+
+                setAlerts(newAlerts)
+                setLoading(false)
+            })
+    }, [id])
 
     return (
-        <Layout isLoading={isLoading}>
+        <Layout isLoading={isLoading}
+                alerts={alerts}>
             <Row>
                 <Col sm="12">
                     <h1>User</h1>

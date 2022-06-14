@@ -12,10 +12,19 @@ export default function Read() {
     const [option, setOption] = useState<Option | null>(null)
     const [isLoading, setLoading] = useState<boolean>(false)
     const [alerts, setAlerts] = useState<CrudAlert[]>([])
-    const id: number = parseInt(router.query.id)
+    const [id, setId] = useState<number>(0)
 
     useEffect(() => {
         if (!router.isReady) return
+        if (router.query.id === undefined) return
+
+        const idParam: string = (typeof router.query.id == 'string') ? router.query.id : router.query.id[0]
+
+        setId(parseInt(idParam))
+    }, [router])
+
+    useEffect(() => {
+        if (id === 0) return
 
         setLoading(true)
         fetch(sprintf(ROUTE.API.OPTIONS, id))
@@ -27,17 +36,18 @@ export default function Read() {
                 setLoading(false)
             })
             .catch((response: ApiCrudErrorResponse) => {
-                const newAlerts: Alert[] = [...alerts]
+                const newAlerts: CrudAlert[] = [...alerts]
 
                 newAlerts.push({
                     variant: 'danger',
-                    message: response.error_code + ': ' + response.message
+                    message: response.error_code + ': ' + response.message,
+                    visible: true,
                 })
 
                 setAlerts(newAlerts)
                 setLoading(false)
             })
-    }, [router])
+    }, [id])
 
     return (
         <Layout isLoading={isLoading}
