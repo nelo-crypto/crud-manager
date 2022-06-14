@@ -7,8 +7,9 @@ import {default as UserForm} from '../../../../components/forms/User'
 import CrudBackButton from '../../../../components/CrudBackButton'
 import {sprintf} from 'sprintf-js'
 import ROUTE from '../../../../enums/Route'
+import {getCsrfToken} from 'next-auth/react'
 
-export default function Update() {
+export default function Update({csrfToken}) {
     const router = useRouter()
     const [user, setUser] = useState<User | null>(null)
     const [isLoading, setLoading] = useState<boolean>(false)
@@ -58,54 +59,6 @@ export default function Update() {
             })
     }
 
-    const handleNameChange = (event) => {
-        event.preventDefault()
-
-        if (user === null) return
-
-        const newUser: User = {...user}
-
-        newUser.name = event.target.value
-
-        setUser(newUser)
-    }
-
-    const handleEmailChange = (event) => {
-        event.preventDefault()
-
-        if (user === null) return
-
-        const newUser: User = {...user}
-
-        newUser.email = event.target.value
-
-        setUser(newUser)
-    }
-
-    const handleImageChange = (event) => {
-        event.preventDefault()
-
-        if (user === null) return
-
-        const newUser: User = {...user}
-
-        newUser.image = event.target.value
-
-        setUser(newUser)
-    }
-
-    const handleRoleChange = (event) => {
-        event.preventDefault()
-
-        if (user === null) return
-
-        const newUser: User = {...user}
-
-        newUser.role = event.target.value
-
-        setUser(newUser)
-    }
-
     useEffect(() => {
         if (id === 0) return
 
@@ -119,18 +72,17 @@ export default function Update() {
     }, [id])
 
     return (
-        <Layout isLoading={isLoading}>
+        <Layout isLoading={isLoading}
+                pageTitle={'Edit ' + user?.name}>
             <Row>
                 <Col sm="12">
                     <h1>User</h1>
                 </Col>
             </Row>
             {user !== null ? <UserForm user={user}
-                                       userNameChangeCallback={handleNameChange}
-                                       userEmailChangeCallback={handleEmailChange}
-                                       userImageChangeCallback={handleImageChange}
-                                       userRoleChangeCallback={handleRoleChange}
-                                       disabled={false}/> : null}
+                                       disabled={false}
+                                       csrfToken={csrfToken}
+            /> : null}
             <Row>
                 <Col sm="6"
                      className="text-start">
@@ -139,11 +91,21 @@ export default function Update() {
                 <Col sm="6"
                      className="text-end">
                     <Button disabled={user === null}
-                            onClick={handleSaveClick}>
+                            form="currentform"
+                            variant="primary"
+                            type="submit">
                         <BiSave/> Save
                     </Button>
                 </Col>
             </Row>
         </Layout>
     )
+}
+
+export async function getServerSideProps(context) {
+    return {
+        props: {
+            csrfToken: await getCsrfToken(context),
+        },
+    }
 }

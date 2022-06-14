@@ -3,91 +3,20 @@ import {Button, Col, Row} from 'react-bootstrap'
 import Layout from '../../../components/Layout'
 import CrudBackButton from '../../../components/CrudBackButton'
 import UserForm from '../../../components/forms/User'
-import {useState} from 'react'
-import ROUTE from '../../../enums/Route'
+import {getCsrfToken} from 'next-auth/react'
 
-export default function Create() {
-    const [user, setUser] = useState<User>({
-        id: 0,
-        email: '',
-        name: '',
-        image: '',
-        role: '',
-        createdAt: '',
-    })
-
-    const handleNameChange = (event) => {
-        event.preventDefault()
-
-        const newUser: User = {...user}
-
-        newUser.name = event.target.value
-
-        setUser(newUser)
-    }
-
-    const handleEmailChange = (event) => {
-        event.preventDefault()
-
-        const newUser: User = {...user}
-
-        newUser.email = event.target.value
-
-        setUser(newUser)
-    }
-
-    const handleImageChange = (event) => {
-        event.preventDefault()
-
-        const newUser: User = {...user}
-
-        newUser.image = event.target.value
-
-        setUser(newUser)
-    }
-
-    const handleRoleChange = (event) => {
-        event.preventDefault()
-
-        const newUser: User = {...user}
-
-        newUser.role = event.target.value
-
-        setUser(newUser)
-    }
-
-    const handleSaveClick = () => {
-        const entityCurated: any = {...user}
-
-        delete entityCurated.id
-
-        fetch(
-            ROUTE.API.USERS.replace('%d', 'create'),
-            {
-                method: 'POST',
-                body: JSON.stringify(entityCurated)
-            }
-        )
-            .then((res) => res.json())
-            .then((response) => {
-                console.log('users', response)
-            })
-    }
-
+export default function Create({csrfToken}) {
     return (
-        <Layout isLoading={false}>
+        <Layout isLoading={false}
+                pageTitle="Create user">
             <Row>
                 <Col sm="12">
                     <h1>Create user</h1>
                 </Col>
             </Row>
             <UserForm
-                user={user}
-                userNameChangeCallback={handleNameChange}
-                userEmailChangeCallback={handleEmailChange}
-                userImageChangeCallback={handleImageChange}
-                userRoleChangeCallback={handleRoleChange}
                 disabled={false}
+                csrfToken={csrfToken}
             />
             <Row className="mb-2">
                 <Col sm="6"
@@ -96,12 +25,21 @@ export default function Create() {
                 </Col>
                 <Col sm="6"
                      className="text-end">
-                    <Button onClick={handleSaveClick}
-                            variant="primary">
+                    <Button form="currentform"
+                            variant="primary"
+                            type="submit">
                         <BiSave/> Save
                     </Button>
                 </Col>
             </Row>
         </Layout>
     )
+}
+
+export async function getServerSideProps(context) {
+    return {
+        props: {
+            csrfToken: await getCsrfToken(context),
+        },
+    }
 }
