@@ -16,24 +16,22 @@ export default function CrudPagination({
                                            currentPage,
                                        }: CrudPaginationProps) {
     const numberOfPages = Math.ceil(numberOfItems / numberOfItemsPerPage)
-    const paginationItems = []
-    const router = useRouter()
-
-    for (let pageNumber = 1; pageNumber <= numberOfPages; pageNumber++) {
-        const route = sprintf(baseRoute, pageNumber)
-
-        paginationItems.push(
+    const paginationItems = Array.from(Array(numberOfPages).keys()).map((pageNumber: number) => {
+        return (
             <Pagination.Item key={pageNumber}
                              onClick={(e) => {
                                  e.preventDefault()
+
+                                 const route = sprintf(baseRoute, pageNumber)
 
                                  router.push(route)
                              }}
                              active={pageNumber === currentPage}>
                 {pageNumber}
-            </Pagination.Item>,
+            </Pagination.Item>
         )
-    }
+    })
+    const router = useRouter()
 
     return (
         <Pagination>
