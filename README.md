@@ -45,19 +45,21 @@ yarn dev run
 * Get Docker to work
 * Build a battery test in Postman
 
-## Create database tables
+### Database / Prisma
+
+#### Create database tables
 
 ```
 npx prisma db push
 ```
 
-## Edit database contents
+#### Edit database contents
 
 ```
 npx prisma studio
 ```
 
-## Update Prisma client
+#### Update Prisma client
 
 ```
 npx prisma generate
