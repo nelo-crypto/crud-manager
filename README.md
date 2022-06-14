@@ -25,7 +25,7 @@ yarn dev run
   heartbeat fashion the price value is emitted to the frontend. For some reason my socketIO connection kept being
   downgraded to polling but SocketIO always guaranteed message delivery with the price updates.
 * Minimal amount of tests but they work.
-* CRUD forms are built with Formik and validated by Yup. View mode is the same form with all inputs disabled.
+* CRUD forms are built with Formik and validated by Yup. The CRUD view mode is the same form but with all inputs disabled.
 * Some effort was made to create an enum collection of files, including an Error enum, `src/Enums/Error`.
 * The layout/feel of the app is React Bootstrap, Pulse skin.
 * There are docker files but I didn't spend much time on it.
