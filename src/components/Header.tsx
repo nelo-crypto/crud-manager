@@ -85,6 +85,7 @@ export default function Header({pageTitle}: HeaderProps) {
                                     }}>
                                         {session?.user?.image && (
                                             <Image
+                                                alt="User image"
                                                 src={session.user.image}
                                                 width={30}
                                                 height={30}
