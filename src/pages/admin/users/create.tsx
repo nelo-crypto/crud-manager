@@ -13,6 +13,7 @@ export default function Create() {
         name: '',
         image: '',
         role: '',
+        createdAt: '',
     })
 
     const handleNameChange = (event) => {

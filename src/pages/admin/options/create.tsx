@@ -13,6 +13,7 @@ export default function Create() {
         name: '',
         image: '',
         role: '',
+        createdAt: '',
     })
 
     const handleNameChange = (event) => {
@@ -57,7 +58,7 @@ export default function Create() {
 
     const handleSaveClick = () => {
         fetch(
-            ROUTE.API.USERS.CREATE,
+            ROUTE.API.OPTIONS,
             {
                 method: 'POST',
                 body: JSON.stringify(user)
