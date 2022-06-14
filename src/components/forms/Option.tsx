@@ -34,7 +34,7 @@ export default function Option({
                         })}
                         onSubmit={async (values, {setSubmitting}) => {
                             const replaceValue = option ? option.id : 'create'
-                            const method = user ? 'PUT' : 'POST'
+                            const method = option ? 'PUT' : 'POST'
 
                             const restResponse = await fetch(
                                 ROUTE.API.OPTIONS.replace('%d', replaceValue),
