@@ -56,14 +56,26 @@ export default NextAuth({
             return true
         },
         async session({session, user, token}) {
-            const crudUser: User = await prisma.user
+            if (session.user === null || session.user === undefined) {
+                return session
+            }
+
+            if (session.user.email === null || session.user.email === undefined) {
+                return session
+            }
+
+            const crudUser: any = await prisma.user
                 .findUnique({
                     where: {
                         email: session.user.email,
                     }
                 })
 
-            session.user.role = crudUser.role
+            if (crudUser === null) {
+                return session
+            }
+
+            session.user['role'] = crudUser.role
 
             return session
         },
