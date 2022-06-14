@@ -16,6 +16,7 @@ export default function User({
                                  disabled,
                                  csrfToken,
                              }: UserProps) {
+    const router = useRouter()
     const [error, setError] = useState(null)
 
     return (
@@ -42,7 +43,7 @@ export default function User({
                             const replaceValue = user ? user.id : 'create'
                             const method = user ? 'PUT' : 'POST'
 
-                            const fetchResult = await fetch(
+                            const rawResponse = await fetch(
                                 ROUTE.API.USERS.replace('%d', replaceValue),
                                 {
                                     method: method,
@@ -55,12 +56,10 @@ export default function User({
                                 }
                             )
 
-                            // @ts-ignore
-                            if (fetchResult?.error) {
-                                // @ts-ignore
-                                setError(fetchResult.error)
-                            } else {
-                                setError(null)
+                            const response = await rawResponse.json()
+
+                            if (method === 'POST') {
+                                router.push(ROUTE.USERS.UPDATE.replace('%d', response.data.id))
                             }
 
                             setSubmitting(false)
