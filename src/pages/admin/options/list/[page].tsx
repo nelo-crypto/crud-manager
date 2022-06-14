@@ -29,6 +29,14 @@ export default function List() {
                 setOptions(options.filter((tempOption: Option) => {
                     return option != tempOption
                 }))
+
+                const newAlerts: CrudAlert[] = [...alerts]
+                newAlerts.push({
+                    variant: 'success',
+                    message: 'Option successfully deleted',
+                    visible: true,
+                })
+                setAlerts(newAlerts)
             })
     }
 

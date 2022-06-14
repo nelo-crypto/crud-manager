@@ -29,6 +29,14 @@ export default function List() {
                 setUsers(users.filter((tempUser: User) => {
                     return user != tempUser
                 }))
+
+                const newAlerts: CrudAlert[] = [...alerts]
+                newAlerts.push({
+                    variant: 'success',
+                    message: 'User successfully deleted',
+                    visible: true,
+                })
+                setAlerts(newAlerts)
             })
     }
 
