@@ -25,6 +25,8 @@ yarn dev run
   heartbeat fashion the price value is emitted to the frontend. For some reason my socketIO connection kept being
   downgraded to polling but SocketIO always guaranteed message delivery with the price updates.
 * Minimal amount of tests but they work.
+* CRUD forms are built with Formik and validated by Yup.
+* The layout/feel of the app is React Bootstrap, Pulse skin.
 * There are docker files but I didn't spend much time on it.
 * The exported Postman collection should work and has sample requests for GET, PUT, POST, PATCH and DELETE calls.
 * No lint warnings
