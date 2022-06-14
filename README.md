@@ -38,7 +38,12 @@ yarn dev run
 
 ## Areas of improvement
 
-*
+* Make the JWT mock
+* More tests
+* Better form feedback on the Frontend
+* Understand why SocketIO fallbacks to polling
+* Get Docker to work
+* Build a battery test in Postman
 
 ## Create database tables
 
