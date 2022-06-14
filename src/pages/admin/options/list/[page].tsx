@@ -81,7 +81,8 @@ export default function List() {
 
     return (
         <Layout isLoading={isLoading}
-                alerts={alerts}>
+                alerts={alerts}
+                pageTitle={'Options (' + page.toString() + ')'}>
             <h1>Options</h1>
             {paginationAndCreateButton()}
             <Row>
