@@ -64,29 +64,62 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<a href="#exclusible-challenge" id="exclusible-challenge" style="color: inherit; text-decoration: none;">
-					<h1>Exclusible challenge</h1>
+				<a href="#crud-manager" id="crud-manager" style="color: inherit; text-decoration: none;">
+					<h1>CRUD Manager</h1>
 				</a>
-				<a href="#note" id="note" style="color: inherit; text-decoration: none;">
-					<h2>Note</h2>
-				</a>
-				<ul>
-					<li>Credentials provider was used as to allow easy connection to third party</li>
-				</ul>
-				<a href="#todo" id="todo" style="color: inherit; text-decoration: none;">
-					<h2>Todo</h2>
+				<a href="#notes" id="notes" style="color: inherit; text-decoration: none;">
+					<h2>Notes</h2>
 				</a>
 				<ul>
-					<li>More tests</li>
-					<li>Unify/merge CRUD forms into a single abstraction</li>
-					<li>Remove console.logs</li>
-					<li>Clean dependencies and do audit</li>
-					<li>Remove hello.ts from api/</li>
-					<li>Implement page title</li>
-					<li>Make mock API</li>
-					<li>Use HttpError</li>
-					<li>Check Formik, Yup and SWR</li>
+					<li>The APIs with equal request and response signatures:<ul>
+							<li>v1 (interacts with SQLite + Prisma)<ul>
+									<li>There is no fixed entity endpoints, as long as the Prisma schema object exists</li>
+									<li>Supports PATCH partial updates</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
 				</ul>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
+				</a>
+				<pre><code>yarn install
+yarn dev <span class="hljs-built_in">run</span>
+</code></pre>
+				<a href="#overview" id="overview" style="color: inherit; text-decoration: none;">
+					<h2>Overview</h2>
+				</a>
+				<ul>
+					<li>I made the authentication flow with a JWT being provided by GitHub working with Next Auth. Behaviour: On first signin
+						a user will be created in CRUD Manager with the name, email and image from GitHub account. While having a session the
+						username and photo will appear in the top right corner. From there the user can check his session data and logout. I
+					was unable to make an API MOCK in time.</li>
+					<li>There is an actual fully working RESTful endpoint that is very easy to extend for other potential entities. I created
+						another entity, the <em>Option</em>, to have an entry for the Spread that is displayed affecting the BTC/USD price feed on
+						the header of the app. I attempted to version the API at first, that is why the RESTful stuff is under the &quot;v1&quot;
+					folder, but Next Auth wasn&#39;t cooperating so I gave up.</li>
+					<li>I was not so successful in creating a frontend form system as modular as this RESTful API, so I ended having the forms
+						and pagination for the User and Option entities being exact mirrors - the plan was to somehow not have hardcoded forms
+					and merge this two mirrors into a single abstraction but there was no time.</li>
+					<li>The BTC/USD price feed with spread on top of the app was implemented with the npm package <em>node-kraken-api</em> and
+						SocketIO. As the order book update comes a local copy of the average price is kept with the applied spread. Then in a
+						heartbeat fashion the price value is emitted to the frontend. For some reason my socketIO connection kept being
+					downgraded to polling but SocketIO always guaranteed message delivery with the price updates.</li>
+					<li>Minimal amount of tests but they work.</li>
+					<li>There are docker files but I didn&#39;t spend much time on it.</li>
+					<li>The exported Postman collection should work and has sample requests for GET, PUT, POST, PATCH and DELETE calls.</li>
+					<li>No lint warnings</li>
+					<li>Documentation folder<ul>
+							<li>Typedoc</li>
+							<li>Postman collection</li>
+							<li>SQLite database dump</li>
+						</ul>
+					</li>
+				</ul>
+				<a href="#areas-of-improvement" id="areas-of-improvement" style="color: inherit; text-decoration: none;">
+					<h2>Areas of improvement</h2>
+				</a>
+				<p>*</p>
 				<a href="#create-database-tables" id="create-database-tables" style="color: inherit; text-decoration: none;">
 					<h2>Create database tables</h2>
 				</a>
@@ -109,9 +142,6 @@
 				<ul>
 					<li class="globals  ">
 						<a href="globals.html"><em>Globals</em></a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_httperror_.html">&quot;<wbr>Http<wbr>Error&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_components_crudbackbutton_.html">&quot;components/<wbr>Crud<wbr>Back<wbr>Button&quot;</a>
@@ -180,10 +210,10 @@
 						<a href="modules/_pages_admin_options_read__id__.html">&quot;pages/admin/options/read/[id]&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/_pages_admin_options_update_.html">&quot;pages/admin/options/update&quot;</a>
+						<a href="modules/_pages_admin_options_update__id__.html">&quot;pages/admin/options/update/[id]&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/_pages_admin_options_update__id__.html">&quot;pages/admin/options/update/[id]&quot;</a>
+						<a href="modules/_pages_admin_users__middleware_.html">&quot;pages/admin/users/_<wbr>middleware&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_pages_admin_users_create_.html">&quot;pages/admin/users/create&quot;</a>
@@ -192,70 +222,55 @@
 						<a href="modules/_pages_admin_users_list__page__.html">&quot;pages/admin/users/list/[page]&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/_pages_admin_users_middleware_.html">&quot;pages/admin/users/middleware&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
 						<a href="modules/_pages_admin_users_read__id__.html">&quot;pages/admin/users/read/[id]&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_pages_admin_users_update_.html">&quot;pages/admin/users/update&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_pages_admin_users_update__id__.html">&quot;pages/admin/users/update/[id]&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/_pages_api_example_.html">&quot;pages/api-<wbr>example&quot;</a>
+						<a href="modules/_pages_api_auth_____nextauth__.html">&quot;pages/api/auth/[...nextauth]&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/_pages_api_auth_____nextauth__.html">&quot;pages/api/auth/[...nextauth]&quot;</a>
+						<a href="modules/_pages_api_examples_protectedcontent_.html">&quot;pages/api/examples/<wbr>Protected<wbr>Content&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_pages_api_examples_jwt_.html">&quot;pages/api/examples/jwt&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/_pages_api_examples_protected_.html">&quot;pages/api/examples/protected&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
 						<a href="modules/_pages_api_examples_session_.html">&quot;pages/api/examples/session&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/_pages_api_healthcheck_.html">&quot;pages/api/healthcheck&quot;</a>
+						<a href="modules/_pages_api_v1_entity_____params__.html">&quot;pages/api/v1/entity/[...params]&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/_pages_api_healthcheck_test_.html">&quot;pages/api/healthcheck.test&quot;</a>
+						<a href="modules/_pages_api_v1_healthcheck_.html">&quot;pages/api/v1/healthcheck&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/_pages_api_socketio_.html">&quot;pages/api/socketio&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_pages_api_v1_options_.html">&quot;pages/api/v1/options&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_pages_api_v1_options__id__.html">&quot;pages/api/v1/options/[id]&quot;</a>
+						<a href="modules/_pages_api_v1_healthcheck_test_.html">&quot;pages/api/v1/healthcheck.test&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_pages_api_v1_pagination_____params__.html">&quot;pages/api/v1/pagination/[...params]&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/_pages_api_v1_users_.html">&quot;pages/api/v1/users&quot;</a>
+						<a href="modules/_pages_api_v1_socketio_.html">&quot;pages/api/v1/socketio&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/_pages_api_v1_users__id__.html">&quot;pages/api/v1/users/[id]&quot;</a>
+						<a href="modules/_pages_debug_api_example_.html">&quot;pages/debug/api-<wbr>example&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_pages_debug_policy_.html">&quot;pages/debug/policy&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_pages_debug_protected_.html">&quot;pages/debug/protected&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_pages_debug_server_.html">&quot;pages/debug/server&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_pages_index_.html">&quot;pages/index&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/_pages_me_index_.html">&quot;pages/me/index&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_pages_policy_.html">&quot;pages/policy&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_pages_protected_.html">&quot;pages/protected&quot;</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="modules/_pages_server_.html">&quot;pages/server&quot;</a>
+						<a href="modules/_pages_profile_.html">&quot;pages/profile&quot;</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/_pages_signin_.html">&quot;pages/signin&quot;</a>
@@ -281,9 +296,6 @@
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 			</ul>
 		</div>
 	</div>
