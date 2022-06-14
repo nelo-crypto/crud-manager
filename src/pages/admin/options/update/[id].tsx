@@ -13,7 +13,16 @@ export default function Update() {
     const [option, setOption] = useState<Option | undefined>(undefined)
     const [isLoading, setLoading] = useState<boolean>(false)
     const [alerts, setAlerts] = useState<CrudAlert[]>([])
-    const id: number = parseInt(router.query.id)
+    const [id, setId] = useState<number>(0)
+
+    useEffect(() => {
+        if (!router.isReady) return
+        if (router.query.id === undefined) return
+
+        const idParam: string = (typeof router.query.id == 'string') ? router.query.id : router.query.id[0]
+
+        setId(parseInt(idParam))
+    }, [router])
 
     const handleNameChange = (event) => {
         event.preventDefault()
@@ -37,6 +46,9 @@ export default function Update() {
 
     const handleSaveClick = (event) => {
         event.preventDefault()
+
+        if (id === 0) return
+        if (option === null) return
 
         setLoading(true)
         fetch(
@@ -74,7 +86,7 @@ export default function Update() {
     }
 
     useEffect(() => {
-        if (!router.isReady) return
+        if (id === 0) return
 
         setLoading(true)
         fetch(sprintf(ROUTE.API.OPTIONS, id))
@@ -83,7 +95,7 @@ export default function Update() {
                 setOption(response.data)
                 setLoading(false)
             })
-    }, [router])
+    }, [id])
 
     return (
         <Layout isLoading={isLoading}
